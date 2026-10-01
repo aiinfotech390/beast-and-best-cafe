@@ -1,18 +1,175 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>The Beast & Best Cafe | Kuppam</title><meta name="description" content="Order food online from The Beast and Best Cafe, Kuppam.">
-<link rel="stylesheet" href="style.css"></head><body>
-<header><div class="nav"><div class="logo">THE <span>BEAST</span> & BEST CAFE</div><button class="cartBtn" onclick="openCart()">🛒 Cart <span id="count">0</span></button></div></header>
-<div class="hero"><div><div class="kicker">Kuppam • Gudipalli Road</div><h1>Big flavour.<br><span style="color:var(--gold)">Beast appetite.</span></h1><p>Pizza, burgers, fried chicken, sandwiches, shakes and more. Choose your favourites and place your order.</p></div><div class="heroCard"><div style="font-weight:900;font-size:26px;text-align:center;text-shadow:0 3px 18px #000">Freshly made.<br><span style="color:var(--gold)">Ready to order.</span></div></div></div>
-<main><div class="tabs" id="tabs"></div><div id="menu"></div></main>
-<aside class="drawer" id="drawer"><div class="drawerTop"><h2>Your Order</h2><button class="close" onclick="closeCart()">×</button></div>
-<div id="cartItems"></div><div class="total">Total: <span id="total">₹0</span></div>
-<form class="checkout" onsubmit="submitOrder(event)">
-<h3>Customer Details</h3><input name="name" required placeholder="Customer name">
-<input name="phone" required inputmode="tel" pattern="[0-9 +()-]{10,}" placeholder="Phone number">
-<select name="mode"><option>Delivery</option><option>Pickup</option></select>
-<textarea name="address" required placeholder="Full delivery address / pickup note"></textarea>
-<button class="order" type="submit">Place Order on WhatsApp</button>
-<p class="notice">This version sends the completed order to the cafe's WhatsApp number. Online card/UPI payment and a cloud admin panel require connecting payment and database accounts before going live.</p>
-</form></aside>
-<script src="app.js"></script></body></html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#120a07">
+<meta name="description" content="The Beast and Best Cafe — pizzas, burgers, sandwiches, fried chicken, milkshakes, mojitos and desserts in Kuppam.">
+<title>The Beast & Best Cafe | Kuppam</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0b0807;--card:#17100d;--card2:#211510;--cream:#fff7ed;--muted:#bca99b;--orange:#ff6b1a;--orange2:#ff9d45;--line:#33221b;--green:#25d366;--shadow:0 18px 50px #0008}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 50% -10%,#3b1b0e 0,#120b08 38%,#080605 100%);color:var(--cream);font-family:"DM Sans",system-ui,sans-serif}
+a{color:inherit;text-decoration:none}button{font:inherit}
+.topbar{position:sticky;top:0;z-index:20;background:#0d0908e8;backdrop-filter:blur(14px);border-bottom:1px solid #3b261c}
+.nav{max-width:1200px;margin:auto;height:72px;display:flex;align-items:center;gap:20px;padding:0 20px}
+.logo{display:flex;align-items:center;gap:11px;font-weight:800;letter-spacing:.4px;white-space:nowrap}.logoMark{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,var(--orange),#a82e05);box-shadow:0 8px 22px #ff5a1226;font-size:21px}.logoText span{display:block}.logoText small{font-size:10px;color:var(--orange2);letter-spacing:2px}
+.navlinks{margin-left:auto;display:flex;gap:20px;color:#d9c9bd;font-size:14px}.navlinks a:hover{color:#fff}
+.cartBtn{border:1px solid #5b3928;background:#24150f;color:#fff;border-radius:999px;padding:10px 15px;cursor:pointer}.cartCount{background:var(--orange);border-radius:999px;padding:2px 7px;margin-left:5px;font-size:12px}
+.hero{min-height:650px;display:grid;place-items:center;position:relative;overflow:hidden;background:linear-gradient(90deg,#0b0705e8 0%,#0b07059b 50%,#0b0705d8 100%),url("assets/cover.jpg") center/cover}
+.hero:after{content:"";position:absolute;inset:auto 0 0;height:180px;background:linear-gradient(transparent,var(--bg))}
+.heroInner{position:relative;z-index:1;max-width:1200px;width:100%;padding:80px 20px;display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center}
+.badge{display:inline-flex;gap:8px;align-items:center;border:1px solid #704022;background:#25150dcc;border-radius:999px;padding:8px 12px;color:#ffc18d;font-size:13px}
+h1{font:800 clamp(46px,7vw,84px)/.94 "Playfair Display",serif;margin:20px 0 18px;max-width:700px}.accent{color:var(--orange2)}
+.hero p{font-size:18px;line-height:1.7;color:#dbc9bc;max-width:610px}.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}.primary,.secondary{border-radius:12px;padding:13px 20px;border:0;cursor:pointer;font-weight:700}.primary{background:linear-gradient(135deg,var(--orange),#ff8a34);color:#180b05;box-shadow:0 10px 30px #ff6b1a33}.secondary{background:#ffffff0d;border:1px solid #ffffff22;color:#fff}
+.heroCard{justify-self:end;width:min(390px,100%);padding:10px;border:1px solid #ffffff22;background:#0b0707aa;border-radius:26px;box-shadow:var(--shadow);transform:rotate(2deg)}.heroCard img{display:block;width:100%;border-radius:20px;aspect-ratio:1/1;object-fit:cover}.heroCard .caption{padding:15px 10px 8px}.caption strong{font-size:18px}.caption small{display:block;color:var(--muted);margin-top:4px}
+.section{max-width:1200px;margin:auto;padding:70px 20px}.sectionHead{display:flex;justify-content:space-between;gap:20px;align-items:end;margin-bottom:28px}.eyebrow{color:var(--orange2);text-transform:uppercase;letter-spacing:3px;font-size:11px;font-weight:800}.section h2{font:800 42px/1.1 "Playfair Display",serif;margin:8px 0 0}.sectionLead{color:var(--muted);max-width:600px;line-height:1.7}
+.categories{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:25px}.cat{position:relative;min-height:145px;border-radius:18px;overflow:hidden;border:1px solid var(--line);cursor:pointer;background:#140d0a}.cat img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;filter:brightness(.55);transition:.3s}.cat:hover img{transform:scale(1.05);filter:brightness(.72)}.cat span{position:absolute;left:14px;bottom:13px;font-weight:800;font-size:16px}
+.controls{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0 24px}.search{flex:1;min-width:220px;background:#120c09;border:1px solid var(--line);color:#fff;border-radius:12px;padding:13px 15px;outline:none}.search:focus{border-color:#9e4e22}.chip{background:#140c09;border:1px solid var(--line);color:#cbb8aa;border-radius:999px;padding:10px 14px;cursor:pointer}.chip.active,.chip:hover{background:#3a1d10;border-color:#9b4a20;color:#fff}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:17px}.item{background:linear-gradient(180deg,#1b120e,#130d0b);border:1px solid var(--line);border-radius:18px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 8px 28px #0003}.itemImg{height:175px;width:100%;object-fit:cover}.itemBody{padding:14px}.itemTop{display:flex;justify-content:space-between;gap:10px}.item h3{font-size:16px;margin:0;line-height:1.25}.price{font-weight:800;color:#ffb274;white-space:nowrap}.desc{font-size:12px;line-height:1.45;color:#9f8d81;margin:7px 0 11px;min-height:34px}.sizeRow{display:flex;gap:5px;margin-bottom:10px}.size{flex:1;border:1px solid #493027;background:#100a08;color:#a99588;border-radius:8px;padding:7px 4px;font-size:11px;cursor:pointer}.size.selected{background:#6f2e12;border-color:#b95420;color:#fff}.add{width:100%;border:0;border-radius:10px;padding:10px;background:#f2e5d8;color:#1b0d08;font-weight:800;cursor:pointer}.add:hover{background:#fff}
+.empty{grid-column:1/-1;text-align:center;padding:50px;color:var(--muted)}
+.info{display:grid;grid-template-columns:1fr 1fr;gap:20px}.infoCard{border:1px solid var(--line);background:#130c09;border-radius:22px;padding:26px}.infoCard h3{margin-top:0}.infoRow{display:flex;gap:12px;margin:14px 0;color:#cdbbae}.icon{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:#2a170f;color:#ff9b54;flex:none}
+.footer{border-top:1px solid var(--line);padding:40px 20px;color:#9f8d81}.footerIn{max-width:1200px;margin:auto;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}.footer strong{color:#fff}
+.overlay{position:fixed;inset:0;background:#0009;z-index:50;display:none}.overlay.open{display:block}.drawer{position:absolute;right:0;top:0;height:100%;width:min(440px,100%);background:#120b08;border-left:1px solid #493025;padding:22px;overflow:auto}.drawerHead{display:flex;justify-content:space-between;align-items:center}.close{background:#25150f;border:1px solid #4b3025;color:#fff;border-radius:10px;width:40px;height:40px;cursor:pointer}.cartItem{display:grid;grid-template-columns:56px 1fr auto;gap:10px;align-items:center;padding:13px 0;border-bottom:1px solid #2b1d17}.cartItem img{width:56px;height:56px;object-fit:cover;border-radius:10px}.cartItem h4{margin:0 0 4px;font-size:14px}.cartItem small{color:#8e7b6f}.qty{display:flex;align-items:center;gap:7px;margin-top:7px}.qty button{width:25px;height:25px;border-radius:7px;background:#2a170f;border:1px solid #4a3025;color:#fff;cursor:pointer}.total{display:flex;justify-content:space-between;font-size:20px;font-weight:800;margin:22px 0}.checkout{display:block;width:100%;padding:14px;border-radius:12px;background:var(--green);color:#061008;text-align:center;font-weight:900}.note{font-size:12px;color:#806f64;text-align:center;margin-top:10px;line-height:1.5}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;z-index:100;background:#f6e9dd;color:#170b07;padding:12px 16px;border-radius:999px;font-weight:800;transition:.25s;box-shadow:var(--shadow)}.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(max-width:950px){.heroInner{grid-template-columns:1fr}.heroCard{justify-self:start;max-width:330px}.grid{grid-template-columns:repeat(3,1fr)}.categories{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:680px){.nav{height:62px}.navlinks{display:none}.hero{min-height:650px}.heroInner{padding-top:55px}.hero p{font-size:15px}.section{padding:48px 14px}.sectionHead{display:block}.section h2{font-size:34px}.grid{grid-template-columns:repeat(2,1fr);gap:11px}.itemImg{height:135px}.itemBody{padding:11px}.item h3{font-size:14px}.desc{font-size:11px}.categories{grid-template-columns:repeat(2,1fr)}.cat{min-height:125px}.info{grid-template-columns:1fr}.logoText{font-size:13px}.logoMark{width:36px;height:36px}.cartBtn{padding:9px 12px}}
+@media(max-width:430px){.grid{grid-template-columns:1fr 1fr}.itemImg{height:120px}.heroCard{max-width:280px}.hero h1{font-size:49px}.primary,.secondary{width:100%;text-align:center}}
+</style>
+</head>
+<body>
+<header class="topbar">
+<nav class="nav">
+  <a class="logo" href="#home"><span class="logoMark">🍕</span><span class="logoText"><span>THE BEAST & BEST</span><small>CAFE • KUPPAM</small></span></a>
+  <div class="navlinks"><a href="#menu">Menu</a><a href="#about">Visit Us</a><a href="#contact">Contact</a></div>
+  <button class="cartBtn" onclick="openCart()">🛒 Cart <span id="cartCount" class="cartCount">0</span></button>
+</nav>
+</header>
+
+<main id="home">
+<section class="hero">
+ <div class="heroInner">
+  <div>
+   <span class="badge">🔥 Fresh • Loaded • Made to Order</span>
+   <h1>The <span class="accent">Beast</span> and Best Cafe</h1>
+   <p>Pizza, burgers, sandwiches, fried chicken, momos, milkshakes, mojitos and desserts — all in one place in Kuppam.</p>
+   <div class="actions"><a class="primary" href="#menu">Explore Menu ↓</a><a class="secondary" href="tel:+919618805447">📞 Call 9618805447</a></div>
+  </div>
+  <div class="heroCard"><img src="assets/cover.jpg" alt="Pizza at The Beast and Best Cafe"><div class="caption"><strong>Big flavour. Beast-sized cravings.</strong><small>New Gudapalli Road • GVB Complex • Kuppam</small></div></div>
+ </div>
+</section>
+
+<section class="section" id="menu">
+ <div class="sectionHead"><div><div class="eyebrow">Order favourites</div><h2>Our Menu</h2></div><p class="sectionLead">Choose a category, search for an item, select your pizza size where available, and add it to your cart.</p></div>
+ <div class="categories" id="categoryCards"></div>
+ <div class="controls"><input id="search" class="search" placeholder="🔎 Search pizza, burger, chicken, shake..." oninput="renderMenu()"><div id="chips"></div></div>
+ <div class="grid" id="menuGrid"></div>
+</section>
+
+<section class="section" id="about">
+ <div class="sectionHead"><div><div class="eyebrow">Find us</div><h2>Come hungry. Leave happy.</h2></div></div>
+ <div class="info">
+  <div class="infoCard">
+   <h3>📍 Visit The Beast & Best Cafe</h3>
+   <div class="infoRow"><span class="icon">📍</span><div>New Gudapalli Road<br>GVB Complex, Kuppam<br>Andhra Pradesh 517425</div></div>
+   <div class="infoRow"><span class="icon">📞</span><div><a href="tel:+919618805447">9618805447</a></div></div>
+   <div class="actions"><a class="primary" href="https://www.google.com/maps/search/?api=1&query=The+Beast+and+Best+Cafe+Kuppam" target="_blank">Get Directions</a></div>
+  </div>
+  <div class="infoCard" id="contact">
+   <h3>📲 Easy ordering</h3>
+   <p style="color:var(--muted);line-height:1.7">Add your favourites to the cart and send the order to the cafe on WhatsApp. The message will include every item, selected size, quantity and total.</p>
+   <p style="color:#ffb274;font-weight:700">WhatsApp: 9618805447</p>
+   <small style="color:#806f64">This website does not process online payments. Payment and delivery/pickup can be confirmed directly with the cafe.</small>
+  </div>
+ </div>
+</section>
+</main>
+
+<footer class="footer"><div class="footerIn"><div><strong>The Beast & Best Cafe</strong><br>New Gudapalli Road, GVB Complex, Kuppam</div><div>© 2026 The Beast & Best Cafe</div></div></footer>
+
+<div class="overlay" id="cartOverlay" onclick="if(event.target===this)closeCart()">
+ <aside class="drawer">
+  <div class="drawerHead"><h2>Your Order</h2><button class="close" onclick="closeCart()">✕</button></div>
+  <div id="cartItems"></div>
+  <div class="total"><span>Total</span><span id="cartTotal">₹0</span></div>
+  <a id="whatsappBtn" class="checkout" href="#" target="_blank">Send Order on WhatsApp</a>
+  <div class="note">Your WhatsApp order will open with a ready-to-send message. Please confirm availability, pickup/delivery and payment with the cafe.</div>
+ </aside>
+</div>
+<div id="toast" class="toast">Added to cart</div>
+
+<script>
+const MENU = [{"category": "Veg Pizza", "name": "Simple Margarita", "desc": "Only Cheese", "price": [100, 170, 300], "image": "veg-pizza.jpg"}, {"category": "Veg Pizza", "name": "Margarita with Onion Pizza", "desc": "Cheese with Onions", "price": [110, 180, 330], "image": "veg-pizza.jpg"}, {"category": "Veg Pizza", "name": "Crazy Veg Pizza", "desc": "Onions, Capsicum, Tomato, Carrot or Red Cabbage or Broccoli", "price": [130, 230, 370], "image": "veg-pizza.jpg"}, {"category": "Veg Pizza", "name": "Cheese 'O' Corn Pizza", "desc": "Cheese and Sweet Corn", "price": [130, 230, 370], "image": "veg-pizza.jpg"}, {"category": "Veg Pizza", "name": "Cheese 'O' Paneer Pizza", "desc": "Cheese and Paneer", "price": [130, 230, 370], "image": "veg-pizza.jpg"}, {"category": "Veg Pizza", "name": "Olives and Onion Pizza", "desc": "Olives and Onion", "price": [140, 250, 380], "image": "veg-pizza.jpg"}, {"category": "Veg Pizza", "name": "Jalapeno & Red Paprika Pizza", "desc": "Jalapeno, Red Paprika, Onion", "price": [140, 250, 380], "image": "veg-pizza.jpg"}, {"category": "Veg Pizza", "name": "Golden Corn Delight", "desc": "Onion, Sweet Corn, Capsicum", "price": [190, 330, 470], "image": "veg-pizza.jpg"}, {"category": "Veg Pizza", "name": "Baby Corn Treat Pizza", "desc": "Onion, Tomato, Capsicum, Baby Corn", "price": [190, 330, 470], "image": "veg-pizza.jpg"}, {"category": "Veg Pizza", "name": "Fresh Mushroom Pizza", "desc": "Onion, Capsicum, Mushroom", "price": [190, 330, 470], "image": "veg-pizza.jpg"}, {"category": "Veg Pizza", "name": "Paneer Tikka Pizza", "desc": "Paneer, Capsicum, Onion, Tomato", "price": [190, 330, 470], "image": "veg-pizza.jpg"}, {"category": "Veg Pizza", "name": "Peppy Paneer Pizza", "desc": "Paneer, Capsicum, Onion, Jalapeno, Red Paprika, Olives", "price": [200, 340, 480], "image": "veg-pizza.jpg"}, {"category": "Veg Pizza", "name": "Paneer Makhani Pizza", "desc": "Paneer, Capsicum, Onion, Jalapeno, Red Paprika, Olives", "price": [200, 340, 480], "image": "veg-pizza.jpg"}, {"category": "Veg Pizza", "name": "Veggie Supreme", "desc": "Regular veg, Paneer, Baby Corn, Sweet Corn, Olives, Jalapeno, Red Paprika", "price": [220, 370, 520], "image": "veg-pizza.jpg"}, {"category": "Non-Veg Pizza", "name": "Chicken Cheese Pizza", "desc": "Chicken with Cheese", "price": [150, 250, 400], "image": "nonveg-pizza.jpg"}, {"category": "Non-Veg Pizza", "name": "Chicken Tikka Pizza", "desc": "Chicken Tikka, Onion, Capsicum, Tomato", "price": [200, 350, 500], "image": "nonveg-pizza.jpg"}, {"category": "Non-Veg Pizza", "name": "Chicken 65 Pizza", "desc": "Chicken-65, Onion, Capsicum", "price": [200, 350, 500], "image": "nonveg-pizza.jpg"}, {"category": "Non-Veg Pizza", "name": "Barbeque Chicken Pizza", "desc": "BBQ Chicken, Onion, Capsicum", "price": [200, 350, 500], "image": "nonveg-pizza.jpg"}, {"category": "Non-Veg Pizza", "name": "Rayalaseema Chicken Pizza", "desc": "Spicy chicken, green chilli, capsicum, tomato, onion, red paprika", "price": [210, 360, 510], "image": "nonveg-pizza.jpg"}, {"category": "Non-Veg Pizza", "name": "Pepper Chicken Pizza", "desc": "Pepper chicken, onion, capsicum, green chilli", "price": [200, 360, 510], "image": "nonveg-pizza.jpg"}, {"category": "Non-Veg Pizza", "name": "Chicken Loaded Pizza", "desc": "3 types of chicken, onion, olives", "price": [230, 370, 530], "image": "nonveg-pizza.jpg"}, {"category": "Non-Veg Pizza", "name": "Chicken Golden Delight Pizza", "desc": "2 types of chicken, sweet corn, onion, olives", "price": [240, 380, 540], "image": "nonveg-pizza.jpg"}, {"category": "Non-Veg Pizza", "name": "Chettinad Chicken Pizza", "desc": "Chettinadu Chicken, Onion, Tomato, Capsicum, Green Chilli, Olives", "price": [230, 370, 530], "image": "nonveg-pizza.jpg"}, {"category": "Burgers", "name": "Aloo Tikka Burger", "desc": "", "price": 50, "image": "burger.jpg"}, {"category": "Burgers", "name": "Classic Veg Burger", "desc": "", "price": 70, "image": "burger.jpg"}, {"category": "Burgers", "name": "Creamy Veg Burger", "desc": "", "price": 80, "image": "burger.jpg"}, {"category": "Burgers", "name": "Peri Peri Veg Burger", "desc": "", "price": 80, "image": "burger.jpg"}, {"category": "Burgers", "name": "Mushroom Burger", "desc": "", "price": 90, "image": "burger.jpg"}, {"category": "Burgers", "name": "Paneer Burger", "desc": "", "price": 100, "image": "burger.jpg"}, {"category": "Burgers", "name": "Super Tower Burger", "desc": "", "price": 130, "image": "burger.jpg"}, {"category": "Burgers", "name": "Classic Chicken Burger", "desc": "", "price": 80, "image": "burger.jpg"}, {"category": "Burgers", "name": "Grilled Chicken Burger", "desc": "", "price": 100, "image": "burger.jpg"}, {"category": "Burgers", "name": "Chilli Cheese Chicken Burger", "desc": "", "price": 100, "image": "burger.jpg"}, {"category": "Burgers", "name": "Peri Peri Chicken Burger", "desc": "", "price": 110, "image": "burger.jpg"}, {"category": "Burgers", "name": "Tandoori Grill Chicken Burger", "desc": "", "price": 110, "image": "burger.jpg"}, {"category": "Burgers", "name": "American Grill Chicken Burger", "desc": "", "price": 120, "image": "burger.jpg"}, {"category": "Burgers", "name": "Smoked Chicken Burger", "desc": "", "price": 120, "image": "burger.jpg"}, {"category": "Burgers", "name": "Crispy Chicken Burger", "desc": "", "price": 130, "image": "burger.jpg"}, {"category": "Burgers", "name": "Chicken Cheese Blast", "desc": "", "price": 140, "image": "burger.jpg"}, {"category": "Burgers", "name": "Chicken Tower Burger", "desc": "", "price": 150, "image": "burger.jpg"}, {"category": "Sandwiches", "name": "Veg Cheese Classic Sandwich", "desc": "", "price": 60, "image": "sandwich.jpg"}, {"category": "Sandwiches", "name": "Veg Cheese Creamy Sandwich", "desc": "", "price": 70, "image": "sandwich.jpg"}, {"category": "Sandwiches", "name": "Veg Cheese Spicy Sandwich", "desc": "", "price": 70, "image": "sandwich.jpg"}, {"category": "Sandwiches", "name": "Veg Toast Cheese Sandwich", "desc": "", "price": 70, "image": "sandwich.jpg"}, {"category": "Sandwiches", "name": "Peanut Butter Grilled Sandwich", "desc": "", "price": 50, "image": "sandwich.jpg"}, {"category": "Sandwiches", "name": "Corn Mayo Cheese Sandwich", "desc": "", "price": 90, "image": "sandwich.jpg"}, {"category": "Sandwiches", "name": "Paneer Cheese Sandwich", "desc": "", "price": 90, "image": "sandwich.jpg"}, {"category": "Sandwiches", "name": "Mushroom Cheese Sandwich", "desc": "", "price": 90, "image": "sandwich.jpg"}, {"category": "Sandwiches", "name": "Egg Mayo Cheese Sandwich", "desc": "", "price": 70, "image": "sandwich.jpg"}, {"category": "Sandwiches", "name": "Chicken Tikka Cheese Sandwich", "desc": "", "price": 100, "image": "sandwich.jpg"}, {"category": "Sandwiches", "name": "Chettinadu Chicken Cheese Sandwich", "desc": "", "price": 110, "image": "sandwich.jpg"}, {"category": "Sandwiches", "name": "Fried Chicken Cheese Sandwich", "desc": "", "price": 130, "image": "sandwich.jpg"}, {"category": "Sandwiches", "name": "Spicy Chicken Cheese Sandwich", "desc": "", "price": 110, "image": "sandwich.jpg"}, {"category": "Sandwiches", "name": "Megabite Chicken Cheese Sandwich", "desc": "", "price": 150, "image": "sandwich.jpg"}, {"category": "Starters", "name": "French Fries", "desc": "", "price": 70, "image": "starters.jpg"}, {"category": "Starters", "name": "Potato Wedges", "desc": "", "price": 80, "image": "starters.jpg"}, {"category": "Starters", "name": "Piri Peri Fries", "desc": "", "price": 80, "image": "starters.jpg"}, {"category": "Starters", "name": "Cheese Nuggets", "desc": "", "price": 90, "image": "starters.jpg"}, {"category": "Starters", "name": "Cheese Jalapeno", "desc": "", "price": 90, "image": "starters.jpg"}, {"category": "Starters", "name": "Fries With Cheese", "desc": "", "price": 90, "image": "starters.jpg"}, {"category": "Starters", "name": "Veg Fingers", "desc": "", "price": 100, "image": "starters.jpg"}, {"category": "Starters", "name": "Chicken Popcorn (10pcs)", "desc": "", "price": 100, "image": "starters.jpg"}, {"category": "Starters", "name": "Chicken Nuggets (8pcs)", "desc": "", "price": 100, "image": "starters.jpg"}, {"category": "Starters", "name": "Chicken Fries (8pcs)", "desc": "", "price": 100, "image": "starters.jpg"}, {"category": "Starters", "name": "Chicken Fingers (6pcs)", "desc": "", "price": 120, "image": "starters.jpg"}, {"category": "Starters", "name": "Fish Fingers (6pcs)", "desc": "", "price": 130, "image": "starters.jpg"}, {"category": "Starters", "name": "Chicken Poutine", "desc": "", "price": 150, "image": "starters.jpg"}, {"category": "Garlic Bread", "name": "Garlic Bread", "desc": "", "price": 70, "image": "starters.jpg"}, {"category": "Garlic Bread", "name": "Chilli Cheese Garlic Bread", "desc": "", "price": 80, "image": "starters.jpg"}, {"category": "Garlic Bread", "name": "Mushroom Cheese Garlic Bread", "desc": "", "price": 90, "image": "starters.jpg"}, {"category": "Garlic Bread", "name": "Cheese Corn Garlic Bread", "desc": "", "price": 90, "image": "starters.jpg"}, {"category": "Garlic Bread", "name": "Paneer Cheese Garlic Bread", "desc": "", "price": 100, "image": "starters.jpg"}, {"category": "Garlic Bread", "name": "Chicken Cheese Garlic Bread", "desc": "", "price": 120, "image": "starters.jpg"}, {"category": "Momos", "name": "Steam Momos", "desc": "", "price": 90, "image": "starters.jpg"}, {"category": "Momos", "name": "Fried Momos", "desc": "", "price": 100, "image": "starters.jpg"}, {"category": "Momos", "name": "Steam Chicken Momos", "desc": "", "price": 110, "image": "starters.jpg"}, {"category": "Momos", "name": "Fried Chicken Momos", "desc": "", "price": 120, "image": "starters.jpg"}, {"category": "Chicken", "name": "Smokey Chicken — Leg Piece (1pc)", "desc": "", "price": 80, "image": "chicken.jpg"}, {"category": "Chicken", "name": "Smokey Chicken — Leg Piece (2pcs)", "desc": "", "price": 140, "image": "chicken.jpg"}, {"category": "Chicken", "name": "Smokey Chicken — Breast Fillets (2pcs)", "desc": "", "price": 180, "image": "chicken.jpg"}, {"category": "Chicken", "name": "Smokey Chicken — Leg Piece (4pcs)", "desc": "", "price": 250, "image": "chicken.jpg"}, {"category": "Chicken", "name": "Fried Chicken — Chicken Strips (4pcs)", "desc": "", "price": 100, "image": "chicken.jpg"}, {"category": "Chicken", "name": "Fried Chicken — Leg Piece (1pc)", "desc": "", "price": 100, "image": "chicken.jpg"}, {"category": "Chicken", "name": "Fried Chicken — Leg Piece (2pcs)", "desc": "", "price": 180, "image": "chicken.jpg"}, {"category": "Chicken", "name": "Fried Chicken — Leg Piece (4pcs)", "desc": "", "price": 360, "image": "chicken.jpg"}, {"category": "Chicken", "name": "Fried Chicken — Chicken Wings (5pcs)", "desc": "", "price": 150, "image": "chicken.jpg"}, {"category": "Chicken", "name": "Fried Chicken — Chicken Lollipop (5pc)", "desc": "", "price": 200, "image": "chicken.jpg"}, {"category": "Chicken", "name": "Fried Chicken — Half Bucket (5pcs)", "desc": "", "price": 300, "image": "chicken.jpg"}, {"category": "Chicken", "name": "Fried Chicken — Full Bucket (10pcs)", "desc": "", "price": 550, "image": "chicken.jpg"}, {"category": "Milkshakes", "name": "Vanilla", "desc": "", "price": 70, "image": "drinks.jpg"}, {"category": "Milkshakes", "name": "Vanilla Caramel", "desc": "", "price": 80, "image": "drinks.jpg"}, {"category": "Milkshakes", "name": "Vanilla Choco Almond", "desc": "", "price": 85, "image": "drinks.jpg"}, {"category": "Milkshakes", "name": "Chocolate", "desc": "", "price": 70, "image": "drinks.jpg"}, {"category": "Milkshakes", "name": "Black Current", "desc": "", "price": 80, "image": "drinks.jpg"}, {"category": "Milkshakes", "name": "Strawberry", "desc": "", "price": 80, "image": "drinks.jpg"}, {"category": "Milkshakes", "name": "Mango Milk Shake", "desc": "", "price": 80, "image": "drinks.jpg"}, {"category": "Milkshakes", "name": "Pineapple", "desc": "", "price": 80, "image": "drinks.jpg"}, {"category": "Milkshakes", "name": "Butterscotch", "desc": "", "price": 80, "image": "drinks.jpg"}, {"category": "Milkshakes", "name": "Green Apple", "desc": "", "price": 80, "image": "drinks.jpg"}, {"category": "Milkshakes", "name": "Kiwi", "desc": "", "price": 80, "image": "drinks.jpg"}, {"category": "Milkshakes", "name": "Blueberry", "desc": "", "price": 80, "image": "drinks.jpg"}, {"category": "Milkshakes", "name": "Guava", "desc": "", "price": 80, "image": "drinks.jpg"}, {"category": "Milkshakes", "name": "Banana & Nuts", "desc": "", "price": 80, "image": "drinks.jpg"}, {"category": "Milkshakes", "name": "Red Banana Milkshake", "desc": "", "price": 80, "image": "drinks.jpg"}, {"category": "Milkshakes", "name": "Dry Fruit Milk Shake", "desc": "", "price": 80, "image": "drinks.jpg"}, {"category": "Milkshakes", "name": "Cold Coffee", "desc": "", "price": 90, "image": "drinks.jpg"}, {"category": "Milkshakes", "name": "Oreo Milkshake", "desc": "", "price": 90, "image": "drinks.jpg"}, {"category": "Milkshakes", "name": "Nutrella Milkshake", "desc": "", "price": 90, "image": "drinks.jpg"}, {"category": "Milkshakes", "name": "Peanut Butter Milkshake", "desc": "", "price": 90, "image": "drinks.jpg"}, {"category": "Mojitos", "name": "Watermelon", "desc": "", "price": 70, "image": "drinks.jpg"}, {"category": "Mojitos", "name": "Green Apple", "desc": "", "price": 70, "image": "drinks.jpg"}, {"category": "Mojitos", "name": "Mint Lime", "desc": "", "price": 70, "image": "drinks.jpg"}, {"category": "Mojitos", "name": "Blue Curacao", "desc": "", "price": 70, "image": "drinks.jpg"}, {"category": "Mojitos", "name": "Strawberry", "desc": "", "price": 80, "image": "drinks.jpg"}, {"category": "Mojitos", "name": "Blue Ocean", "desc": "", "price": 80, "image": "drinks.jpg"}, {"category": "Mojitos", "name": "Blueberry", "desc": "", "price": 80, "image": "drinks.jpg"}, {"category": "Desserts", "name": "Brownie", "desc": "", "price": 70, "image": "dessert.jpg"}, {"category": "Desserts", "name": "Brownie with Ice Cream", "desc": "", "price": 100, "image": "dessert.jpg"}, {"category": "Desserts", "name": "Sizzler Brownie", "desc": "", "price": 140, "image": "dessert.jpg"}, {"category": "Add-ons", "name": "Double Cheese — Small", "desc": "", "price": 50, "image": "veg-pizza.jpg"}, {"category": "Add-ons", "name": "Double Cheese — Medium", "desc": "", "price": 70, "image": "veg-pizza.jpg"}, {"category": "Add-ons", "name": "Double Cheese — Large", "desc": "", "price": 90, "image": "veg-pizza.jpg"}, {"category": "Add-ons", "name": "Cheese Bust — Small", "desc": "", "price": 70, "image": "veg-pizza.jpg"}, {"category": "Add-ons", "name": "Cheese Bust — Medium", "desc": "", "price": 90, "image": "veg-pizza.jpg"}, {"category": "Add-ons", "name": "Cheese Bust — Large", "desc": "", "price": 110, "image": "veg-pizza.jpg"}];
+const IMG_BASE="assets/";
+const categories=[...new Set(MENU.map(x=>x.category))];
+const categoryImages={
+ "Veg Pizza":"veg-pizza.jpg","Non-Veg Pizza":"nonveg-pizza.jpg","Burgers":"burger.jpg","Sandwiches":"sandwich.jpg",
+ "Starters":"starters.jpg","Garlic Bread":"starters.jpg","Momos":"starters.jpg","Chicken":"chicken.jpg",
+ "Milkshakes":"drinks.jpg","Mojitos":"drinks.jpg","Desserts":"dessert.jpg","Add-ons":"veg-pizza.jpg"
+};
+let active="All", cart=[];
+
+function money(n){return "₹"+Number(n).toLocaleString("en-IN")}
+function renderCategories(){
+ document.getElementById("categoryCards").innerHTML=categories.map(c=>`<button class="cat" onclick="setCategory('${c.replace(/'/g,"\\'")}')"><img src="${IMG_BASE}${categoryImages[c]}" alt="${c}"><span>${c}</span></button>`).join("");
+ document.getElementById("chips").innerHTML=`<div class="controls">${["All",...categories].map(c=>`<button class="chip ${active===c?"active":""}" onclick="setCategory('${c.replace(/'/g,"\\'")}')">${c}</button>`).join("")}</div>`;
+}
+function setCategory(c){active=c;renderCategories();renderMenu();document.getElementById("menu").scrollIntoView({behavior:"smooth",block:"start"})}
+function renderMenu(){
+ const q=(document.getElementById("search").value||"").toLowerCase().trim();
+ const list=MENU.filter(x=>(active==="All"||x.category===active)&&(!q||(x.name+" "+x.desc+" "+x.category).toLowerCase().includes(q)));
+ const grid=document.getElementById("menuGrid");
+ if(!list.length){grid.innerHTML='<div class="empty">No items found. Try another search.</div>';return}
+ grid.innerHTML=list.map((x,i)=>{
+   const idx=MENU.indexOf(x);
+   const isPizza=Array.isArray(x.price);
+   const p=isPizza?x.price[0]:x.price;
+   return `<article class="item">
+     <img class="itemImg" src="${IMG_BASE}${x.image}" alt="${x.name}">
+     <div class="itemBody">
+       <div class="itemTop"><h3>${x.name}</h3><span class="price" id="price-${idx}">${money(p)}</span></div>
+       <div class="desc">${x.desc||"Freshly prepared at The Beast & Best Cafe."}</div>
+       ${isPizza?`<div class="sizeRow">${["S","M","L"].map((s,j)=>`<button class="size ${j===0?"selected":""}" id="size-${idx}-${j}" onclick="chooseSize(${idx},${j})">${s} ${money(x.price[j])}</button>`).join("")}</div>`:""}
+       <button class="add" onclick="addItem(${idx})">＋ Add to order</button>
+     </div>
+   </article>`
+ }).join("");
+}
+function chooseSize(idx,j){
+ const x=MENU[idx];x._size=j;
+ ["0","1","2"].forEach(k=>{const el=document.getElementById(`size-${idx}-${k}`);if(el)el.classList.toggle("selected",Number(k)===j)});
+ const p=document.getElementById(`price-${idx}`);if(p)p.textContent=money(x.price[j]);
+}
+function addItem(idx){
+ const x=MENU[idx], size=Array.isArray(x.price)?(x._size??0):null;
+ const unit=Array.isArray(x.price)?x.price[size]:x.price;
+ const key=idx+"-"+size;
+ const found=cart.find(i=>i.key===key);
+ if(found)found.qty++; else cart.push({key,idx,size,unit,qty:1});
+ updateCart(); toast("Added to cart");
+}
+function changeQty(key,delta){
+ const x=cart.find(i=>i.key===key); if(!x)return;
+ x.qty+=delta;if(x.qty<=0)cart=cart.filter(i=>i.key!==key);updateCart();
+}
+function updateCart(){
+ document.getElementById("cartCount").textContent=cart.reduce((a,x)=>a+x.qty,0);
+ const box=document.getElementById("cartItems");
+ if(!cart.length){box.innerHTML='<div class="empty">Your cart is empty.<br>Add something delicious from the menu.</div>'}
+ else box.innerHTML=cart.map(x=>{const m=MENU[x.idx], label=Array.isArray(m.price)?` • ${["Small","Medium","Large"][x.size]}`:"";return `<div class="cartItem"><img src="${IMG_BASE}${m.image}" alt=""><div><h4>${m.name}</h4><small>${money(x.unit)}${label}</small><div class="qty"><button onclick="changeQty('${x.key}',-1)">−</button><span>${x.qty}</span><button onclick="changeQty('${x.key}',1)">＋</button></div></div><strong>${money(x.unit*x.qty)}</strong></div>`}).join("");
+ const total=cart.reduce((a,x)=>a+x.unit*x.qty,0);
+ document.getElementById("cartTotal").textContent=money(total);
+ let msg="Hello The Beast & Best Cafe! I would like to order:%0A%0A";
+ cart.forEach(x=>{const m=MENU[x.idx];const label=Array.isArray(m.price)?` (${["S","M","L"][x.size]})`:"";msg+=`${x.qty} x ${m.name}${label} - ${money(x.unit*x.qty)}%0A`});
+ msg+=`%0ATotal: ${money(total)}%0A%0APlease confirm availability and pickup/delivery.`;
+ document.getElementById("whatsappBtn").href="https://wa.me/919618805447?text="+msg;
+}
+function openCart(){document.getElementById("cartOverlay").classList.add("open");updateCart()}
+function closeCart(){document.getElementById("cartOverlay").classList.remove("open")}
+let toastTimer;function toast(t){const e=document.getElementById("toast");e.textContent=t;e.classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>e.classList.remove("show"),1400)}
+renderCategories();renderMenu();updateCart();
+</script>
+</body>
+</html>
