@@ -1,57 +1,18 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>My First Website</title>
-
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            background: #f5f5f5;
-            margin: 0;
-        }
-
-        header {
-            background: #222;
-            color: white;
-            padding: 40px 20px;
-        }
-
-        .content {
-            padding: 40px 20px;
-        }
-
-        button {
-            background: #ff6600;
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 8px;
-            font-size: 18px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background: #e05500;
-        }
-    </style>
-</head>
-
-<body>
-
-    <header>
-        <h1>My First Website</h1>
-        <p>Welcome to my website!</p>
-    </header>
-
-    <div class="content">
-        <h2>Hello 👋</h2>
-        <p>I created this website myself.</p>
-
-        <button onclick="alert('Welcome! Your website is working 🎉')">
-            Click Me
-        </button>
-    </div>
-
-</body>
-</html>
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Beast & Best Cafe | Kuppam</title><meta name="description" content="Order food online from The Beast and Best Cafe, Kuppam.">
+<link rel="stylesheet" href="style.css"></head><body>
+<header><div class="nav"><div class="logo">THE <span>BEAST</span> & BEST CAFE</div><button class="cartBtn" onclick="openCart()">🛒 Cart <span id="count">0</span></button></div></header>
+<div class="hero"><div><div class="kicker">Kuppam • Gudipalli Road</div><h1>Big flavour.<br><span style="color:var(--gold)">Beast appetite.</span></h1><p>Pizza, burgers, fried chicken, sandwiches, shakes and more. Choose your favourites and place your order.</p></div><div class="heroCard"><div style="font-weight:900;font-size:26px;text-align:center;text-shadow:0 3px 18px #000">Freshly made.<br><span style="color:var(--gold)">Ready to order.</span></div></div></div>
+<main><div class="tabs" id="tabs"></div><div id="menu"></div></main>
+<aside class="drawer" id="drawer"><div class="drawerTop"><h2>Your Order</h2><button class="close" onclick="closeCart()">×</button></div>
+<div id="cartItems"></div><div class="total">Total: <span id="total">₹0</span></div>
+<form class="checkout" onsubmit="submitOrder(event)">
+<h3>Customer Details</h3><input name="name" required placeholder="Customer name">
+<input name="phone" required inputmode="tel" pattern="[0-9 +()-]{10,}" placeholder="Phone number">
+<select name="mode"><option>Delivery</option><option>Pickup</option></select>
+<textarea name="address" required placeholder="Full delivery address / pickup note"></textarea>
+<button class="order" type="submit">Place Order on WhatsApp</button>
+<p class="notice">This version sends the completed order to the cafe's WhatsApp number. Online card/UPI payment and a cloud admin panel require connecting payment and database accounts before going live.</p>
+</form></aside>
+<script src="app.js"></script></body></html>
